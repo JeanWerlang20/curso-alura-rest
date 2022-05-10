@@ -26,6 +26,18 @@ livros[index].titulo = req.body.titulo;
 res.json(livros)
 })
 
+app.delete('/livros/:id', (req, res) => {
+    let {id} = req.params;
+    let index = bookSearch(id);
+    livros.splice(index, 1);
+    res.send(`livro ${id} removido com suceso`);
+    })
+
+app.get('/livros/:id', (req, res) => {
+    let index = bookSearch(req.params.id);
+    res.json(livros[index]);
+})
+
 function bookSearch(id){
     return livros.findIndex(livro => livro.id == id)
 }
