@@ -1,4 +1,11 @@
-import express from 'express'
+import express from 'express';
+import db from "./config/dbConnect.js";
+
+db.on("error", console.log.bind(console, 'erro de conexao'));
+
+db.once("open", () => {
+    console.log('conexao com o banco feita com sucesso')
+})
 
 const app = express();
 app.use(express.json())
@@ -26,7 +33,7 @@ livros[index].titulo = req.body.titulo;
 res.json(livros)
 })
 
-app.delete('/livros/:id', (req, res) => {
+app.put('/livros/:id', (req, res) => {
     let {id} = req.params;
     let index = bookSearch(id);
     livros.splice(index, 1);
