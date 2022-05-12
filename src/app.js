@@ -1,5 +1,7 @@
 import express from 'express';
 import db from "./config/dbConnect.js";
+import livros from "./models/Livro.js"
+import routes from "./routes/index.js"
 
 db.on("error", console.log.bind(console, 'erro de conexao'));
 
@@ -10,17 +12,8 @@ db.once("open", () => {
 const app = express();
 app.use(express.json())
 
-const livros = [
-    {id:1 , 'titulo': 'senhor dos aneis'},
-    {id:2 , 'titulo': 'o hobbit'}
-]
- 
-app.get('/', (req, res) => {
-    res.status(200).send('curso express');
-})
-app.get('/livros', (req, res) => {
-    res.status(200).json(livros)
-})
+routes(app);
+
 
 app.post('/livros', (req, res) => {
     livros.push(req.body);
@@ -48,4 +41,4 @@ app.get('/livros/:id', (req, res) => {
 function bookSearch(id){
     return livros.findIndex(livro => livro.id == id)
 }
-export default app
+export default app;
